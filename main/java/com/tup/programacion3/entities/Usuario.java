@@ -1,8 +1,8 @@
 package com.tup.programacion3.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import com.tup.programacion3.enums.Rol;
 
@@ -13,10 +13,13 @@ public class Usuario extends Base {
     private String celular;
     private String contrasenia;
     private Rol rol;
-    private List<Pedido> pedidos;
+    private Set<Pedido> pedidos;
+
+    private static final Set<Usuario> usuarios = new LinkedHashSet<>();
 
     public Usuario() {
-        pedidos = new ArrayList<>();
+        pedidos = new LinkedHashSet<>();
+
     }
 
     public Usuario(String nombre, String apellido, String mail, String celular, String contrasenia, Rol rol) {
@@ -27,6 +30,7 @@ public class Usuario extends Base {
         this.celular = celular;
         this.contrasenia = contrasenia;
         this.rol = rol;
+        agregarUsuario(this);
     }
 
     public String getNombre() {
@@ -77,12 +81,22 @@ public class Usuario extends Base {
         this.rol = rol;
     }
 
-    public List<Pedido> getPedidos() {
+    public Set<Pedido> getPedidos() {
         return pedidos;
     }
 
-    public void setPedidos(List<Pedido> pedidos) {
-        this.pedidos = pedidos;
+    public void setPedidos(Set<Pedido> pedidos) {
+        this.pedidos = pedidos == null ? new LinkedHashSet<>() : new LinkedHashSet<>(pedidos);
+    }
+
+    public static Set<Usuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public static void agregarUsuario(Usuario usuario) {
+        if (!usuarios.contains(usuario)) {
+            usuarios.add(usuario);
+        }
     }
 
     public void agregarPedido(Pedido pedido) {
@@ -101,13 +115,16 @@ public class Usuario extends Base {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Usuario usuario = (Usuario) o;
-        return Objects.equals(getNombre(), usuario.getNombre()) && Objects.equals(getApellido(), usuario.getApellido()) && Objects.equals(getMail(), usuario.getMail()) && Objects.equals(getCelular(), usuario.getCelular()) && Objects.equals(getContrasenia(), usuario.getContrasenia()) && getRol() == usuario.getRol() && Objects.equals(getPedidos(), usuario.getPedidos());
+        return Objects.equals(getNombre(), usuario.getNombre()) && Objects.equals(getApellido(), usuario.getApellido())
+                && Objects.equals(getMail(), usuario.getMail()) && Objects.equals(getCelular(), usuario.getCelular())
+                && Objects.equals(getContrasenia(), usuario.getContrasenia()) && getRol() == usuario.getRol();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getNombre(), getApellido(), getMail(), getCelular(), getContrasenia(), getRol(), getPedidos());
+        return Objects.hash(getNombre(), getApellido(), getMail(), getCelular(), getContrasenia(), getRol());
     }
 }

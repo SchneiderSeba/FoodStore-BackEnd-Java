@@ -19,6 +19,7 @@ public class DetallePedido extends Base {
         setId(nextId++);
         setProducto(producto);
         setCantidad(cantidad);
+        this.subtotal = calcularSubtotal();
     }
 
     private Double calcularSubtotal() {
@@ -69,13 +70,14 @@ public class DetallePedido extends Base {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass())
+            return false;
         DetallePedido that = (DetallePedido) o;
-        return getCantidad() == that.getCantidad() && Objects.equals(getSubtotal(), that.getSubtotal()) && Objects.equals(getProducto(), that.getProducto());
+        return Objects.equals(getId(), that.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getCantidad(), getSubtotal(), getProducto());
+        return Objects.hash(getId());
     }
 }

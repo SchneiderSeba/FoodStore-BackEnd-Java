@@ -3,12 +3,15 @@ package com.tup.programacion3.entities;
 import java.time.LocalDateTime;
 
 public abstract class Base {
+
+    private static Long firmaDeId = 1L;
     private Long id;
     private boolean eliminado;
     private LocalDateTime createdAt;
 
     public Base() {
         this.createdAt = LocalDateTime.now();
+        this.id = firmaDeId++;
     }
 
     public Long getId() {
@@ -38,6 +41,4 @@ public abstract class Base {
     @Override
     public abstract String toString();
 
-
 }
-

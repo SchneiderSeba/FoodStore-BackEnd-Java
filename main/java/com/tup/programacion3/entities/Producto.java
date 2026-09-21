@@ -3,28 +3,34 @@ package com.tup.programacion3.entities;
 import com.tup.programacion3.exceptions.ValorInvalidoException;
 
 import java.util.Objects;
+import java.util.Set;
+import java.util.LinkedHashSet;
 
 public class Producto extends Base {
     private String nombre;
     private Double precio;
+    private String imagen;
     private String descripcion;
     private int stock;
-    private String imagen;
     private boolean disponible;
     private Categoria categoria;
 
+    private static final Set<Producto> productos = new LinkedHashSet<>();
+
     public Producto() {
+
     }
 
-    public Producto(String nombre, Double precio, String descripcion, int stock, String imagen, boolean disponible,
-                    Categoria categoria) {
+    public Producto(String nombre, Double precio, String imagen, String descripcion, int stock, boolean disponible,
+            Categoria categoria) {
         setNombre(nombre);
         setPrecio(precio);
+        setImagen(imagen);
         setDescripcion(descripcion);
         setStock(stock);
-        setImagen(imagen);
         setDisponible(disponible);
         setCategoria(categoria);
+        addProducto(this);
     }
 
     public String getNombre() {
@@ -33,6 +39,16 @@ public class Producto extends Base {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public void addProducto(Producto producto) {
+        if (producto != null) {
+            productos.add(producto);
+        }
+    }
+
+    public static Set<Producto> getProductos() {
+        return productos;
     }
 
     public Double getPrecio() {
@@ -44,6 +60,14 @@ public class Producto extends Base {
             throw new ValorInvalidoException("precio", "debe ser mayor o igual a cero");
         }
         this.precio = precio;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
     public String getDescripcion() {
@@ -63,14 +87,6 @@ public class Producto extends Base {
             throw new ValorInvalidoException("stock", "no puede ser negativo");
         }
         this.stock = stock;
-    }
-
-    public String getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(String imagen) {
-        this.imagen = imagen;
     }
 
     public boolean isDisponible() {
@@ -94,19 +110,21 @@ public class Producto extends Base {
 
     @Override
     public String toString() {
-        return String.format("Producto[id=%d, nombre='%s', $%.2f, stock=%d, disponible=%s]", getId(), nombre, precio,
-                stock, disponible ? "Sí" : "No");
+        return String.format("Producto[id=%d, nombre='%s', $%.2f, stock=%d, categoria='%s', disponible=%s]", getId(),
+                nombre, precio,
+                stock, categoria != null ? categoria.getNombre() : "N/A", disponible ? "Sí" : "No");
     }
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Producto producto = (Producto) o;
-        return getStock() == producto.getStock() && isDisponible() == producto.isDisponible() && Objects.equals(getNombre(), producto.getNombre()) && Objects.equals(getPrecio(), producto.getPrecio()) && Objects.equals(getDescripcion(), producto.getDescripcion()) && Objects.equals(getImagen(), producto.getImagen()) && Objects.equals(getCategoria(), producto.getCategoria());
+        return Objects.equals(getId(), producto.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getNombre(), getPrecio(), getDescripcion(), getStock(), getImagen(), isDisponible(), getCategoria());
+        return Objects.hash(getId());
     }
 }

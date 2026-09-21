@@ -1,16 +1,16 @@
 package com.tup.programacion3.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Categoria extends Base {
     private String nombre;
     private String descripcion;
-    private List<Producto> productos;
+    private Set<Producto> productos;
 
     public Categoria() {
-        productos = new ArrayList<>();
+        productos = new LinkedHashSet<>();
     }
 
     public Categoria(String nombre, String descripcion) {
@@ -35,12 +35,12 @@ public class Categoria extends Base {
         this.descripcion = descripcion;
     }
 
-    public List<Producto> getProductos() {
+    public Set<Producto> getProductos() {
         return productos;
     }
 
-    public void setProductos(List<Producto> productos) {
-        this.productos = productos;
+    public void setProductos(Set<Producto> productos) {
+        this.productos = productos == null ? new LinkedHashSet<>() : new LinkedHashSet<>(productos);
     }
 
     public void agregarProducto(Producto producto) {
@@ -62,11 +62,11 @@ public class Categoria extends Base {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Categoria categoria = (Categoria) o;
-        return Objects.equals(getNombre(), categoria.getNombre()) && Objects.equals(getDescripcion(), categoria.getDescripcion()) && Objects.equals(getProductos(), categoria.getProductos());
+        return Objects.equals(getNombre(), categoria.getNombre()) && Objects.equals(getDescripcion(), categoria.getDescripcion());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getNombre(), getDescripcion(), getProductos());
+        return Objects.hash(getNombre(), getDescripcion());
     }
 }

@@ -13,10 +13,9 @@ import java.util.Set;
 import java.time.LocalDate;
 import java.util.Objects;
 
-
 public class Pedido extends Base implements Calculable {
-    private LocalDate fecha;
 
+    private LocalDate fecha;
     private Estado estado;
     private Double total;
     private FormaPago formaPago;
@@ -34,6 +33,7 @@ public class Pedido extends Base implements Calculable {
         this();
         this.formaPago = formaPago;
         setUsuario(usuario);
+        calcularTotal();
     }
 
     public LocalDate getFecha() {
@@ -85,6 +85,10 @@ public class Pedido extends Base implements Calculable {
         if (usuario != null && !usuario.getPedidos().contains(this)) {
             usuario.agregarPedido(this);
         }
+    }
+
+    public void agregarDetallePedido(int cantidad, Producto producto) {
+        addDetallePedido(cantidad, producto);
     }
 
     @Override
@@ -161,13 +165,14 @@ public class Pedido extends Base implements Calculable {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass())
+            return false;
         Pedido pedido = (Pedido) o;
-        return Objects.equals(getFecha(), pedido.getFecha()) && getEstado() == pedido.getEstado() && Objects.equals(getTotal(), pedido.getTotal()) && getFormaPago() == pedido.getFormaPago() && Objects.equals(getDetalles(), pedido.getDetalles()) && Objects.equals(getUsuario(), pedido.getUsuario());
+        return Objects.equals(getId(), pedido.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getFecha(), getEstado(), getTotal(), getFormaPago(), getDetalles(), getUsuario());
+        return Objects.hash(getId());
     }
 }
