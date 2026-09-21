@@ -10,7 +10,7 @@ import com.tup.programacion3.entities.Pedido;
 public class Main {
     public static void main(String[] args) {
 
-        Usuario usuario1 = new Usuario("Martin", "Perez", "usuario1@example.com", "123456789", "15151515", Rol.USER);
+        Usuario usuario1 = new Usuario("Martin", "Perez", "usuario1@example.com", "123456789", "15151515", Rol.USUARIO);
         Usuario usuario2 = new Usuario("Juan", "Gomez", "usuario2@example.com", "987654321", "15151516", Rol.ADMIN);
 
         Pedido pedido1 = new Pedido(FormaPago.EFECTIVO, usuario1);
